@@ -1,0 +1,11 @@
+import random
+
+words = ["dog", "runs", "quickly", "cat"]
+
+possible_tags = ["NN", "VB", "RB", "JJ"]
+
+print("Stochastic POS Tags")
+
+for word in words:
+    tag = random.choice(possible_tags)
+    print(word, ":", tag)
