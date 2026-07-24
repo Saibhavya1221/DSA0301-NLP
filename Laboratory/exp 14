@@ -1,0 +1,9 @@
+subject = input("Enter Subject (He/They): ")
+verb = input("Enter Verb: ")
+
+if subject == "He" and verb == "runs":
+    print("Sentence is Correct")
+elif subject == "They" and verb == "run":
+    print("Sentence is Correct")
+else:
+    print("Sentence is Incorrect")
