@@ -1,0 +1,17 @@
+import nltk
+
+grammar = nltk.CFG.fromstring("""
+S -> NP VP
+NP -> Det N
+VP -> V
+Det -> 'the'
+N -> 'girl'
+V -> 'sings'
+""")
+
+parser = nltk.EarleyChartParser(grammar)
+
+sentence = "the girl sings".split()
+
+for tree in parser.parse(sentence):
+    print(tree)
