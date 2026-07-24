@@ -1,0 +1,15 @@
+import re
+
+text = "My phone number is 9876543210"
+
+# Search for a 10-digit number
+match = re.search(r"\d{10}", text)
+
+if match:
+    print("Phone Number Found:", match.group())
+else:
+    print("Phone Number Not Found")
+
+# Find all digits
+digits = re.findall(r"\d", text)
+print("Digits:", digits)
