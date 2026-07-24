@@ -1,0 +1,9 @@
+words = ["playing", "book", "running", "school"]
+
+for word in words:
+    tag = "NN"
+
+    if word.endswith("ing"):
+        tag = "VBG"
+
+    print(word, ":", tag)
