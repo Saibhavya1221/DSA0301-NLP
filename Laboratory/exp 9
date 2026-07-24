@@ -1,0 +1,15 @@
+import re
+
+words = ["playing", "beautiful", "quickly", "dog", "walked"]
+
+for word in words:
+    if re.search("ing$", word):
+        tag = "VBG"
+    elif re.search("ly$", word):
+        tag = "RB"
+    elif re.search("ed$", word):
+        tag = "VBD"
+    else:
+        tag = "NN"
+
+    print(word, ":", tag)
