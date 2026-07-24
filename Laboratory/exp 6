@@ -1,0 +1,11 @@
+from nltk.util import bigrams
+
+text = "Natural language processing is interesting"
+
+words = text.split()
+
+bigram_list = list(bigrams(words))
+
+print("Bigrams:")
+for bg in bigram_list:
+    print(bg)
