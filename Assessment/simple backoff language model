@@ -1,0 +1,53 @@
+from collections import defaultdict
+
+# Training Corpus
+corpus = [
+    "I like NLP",
+    "I like Python",
+    "I love Python",
+    "Python is easy"
+]
+
+# Count Unigrams, Bigrams, and Trigrams
+unigram = defaultdict(int)
+bigram = defaultdict(int)
+trigram = defaultdict(int)
+
+for sentence in corpus:
+    words = sentence.split()
+
+    # Unigrams
+    for word in words:
+        unigram[word] += 1
+
+    # Bigrams
+    for i in range(len(words) - 1):
+        bigram[(words[i], words[i + 1])] += 1
+
+    # Trigrams
+    for i in range(len(words) - 2):
+        trigram[(words[i], words[i + 1], words[i + 2])] += 1
+
+# Total number of words
+total_words = sum(unigram.values())
+
+# Input sentence
+w1 = "I"
+w2 = "like"
+w3 = "Python"
+
+# Backoff Language Model
+if trigram[(w1, w2, w3)] > 0:
+    probability = trigram[(w1, w2, w3)] / bigram[(w1, w2)]
+    print("Using Trigram")
+    print("Probability =", probability)
+
+elif bigram[(w2, w3)] > 0:
+    probability = bigram[(w2, w3)] / unigram[w2]
+    print("Using Bigram")
+    print("Probability =", probability)
+
+else:
+    probability = unigram[w3] / total_words
+    print("Using Unigram")
+    print("Probability =", probability)
