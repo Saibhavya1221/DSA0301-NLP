@@ -1,0 +1,45 @@
+from collections import defaultdict
+
+corpus = [
+    "I like NLP",
+    "I like Python"
+]
+
+# Build vocabulary
+words = []
+for sentence in corpus:
+    words.extend(sentence.split())
+
+vocab = sorted(set(words))
+V = len(vocab)
+
+# Count unigrams
+unigram = defaultdict(int)
+for w in words:
+    unigram[w] += 1
+
+# Count bigrams
+bigram = defaultdict(int)
+for sentence in corpus:
+    tokens = sentence.split()
+    for i in range(len(tokens) - 1):
+        bigram[(tokens[i], tokens[i + 1])] += 1
+
+previous_word = "like"
+next_word = "Python"
+
+count_bigram = bigram[(previous_word, next_word)]
+count_previous = unigram[previous_word]
+
+# MLE Probability
+mle = count_bigram / count_previous
+
+# Laplace Smoothing Probability
+laplace = (count_bigram + 1) / (count_previous + V)
+
+print("Vocabulary:", vocab)
+print("Vocabulary Size (V):", V)
+print("Bigram Count:", count_bigram)
+print("Previous Word Count:", count_previous)
+print("MLE =", mle)
+print("Laplace =", round(laplace, 4))
