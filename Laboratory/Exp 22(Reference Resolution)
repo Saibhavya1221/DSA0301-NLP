@@ -1,18 +1,32 @@
-import spacy
+import re
 
-nlp = spacy.load("en_core_web_sm")
+def reference_resolution(text):
+    words = text.split()
+    nouns = []
+    
+    pronouns = {
+        "he", "she", "it", "they", "him", "her", "them"
+    }
 
-text = input("Enter text: ")
-doc = nlp(text)
+    print("\nReference Resolution:")
+    
+    for word in words:
+        clean = re.sub(r'[^a-zA-Z]', '', word)
+        lower = clean.lower()
 
-last_person = None
+        if lower in pronouns:
+            if nouns:
+                print(clean, "->", nouns[-1])
+            else:
+                print(clean, "-> No reference found")
+        elif clean:
+            # Store possible nouns
+            if lower not in {
+                "the", "a", "an", "is", "was", "are",
+                "and", "or", "to", "in", "on", "of",
+                "has", "have", "with"
+            }:
+                nouns.append(clean)
 
-for token in doc:
-    if token.pos_ == "PROPN":
-        last_person = token.text
-
-    if token.text.lower() in ["he", "she"]:
-        if last_person:
-            print(token.text, "refers to", last_person)
-        else:
-            print("Reference not found")
+text = input("Enter a sentence: ")
+reference_resolution(text)
