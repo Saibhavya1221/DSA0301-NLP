@@ -1,0 +1,25 @@
+def dialog_act(text):
+    text = text.lower()
+
+    if "?" in text:
+        return "Question"
+
+    elif text.startswith(("hi", "hello", "hey")):
+        return "Greeting"
+
+    elif "thank" in text:
+        return "Thanking"
+
+    elif text.startswith(("yes", "okay", "ok")):
+        return "Agreement"
+
+    elif text.startswith(("bye", "goodbye")):
+        return "Farewell"
+
+    else:
+        return "Statement"
+
+
+text = input("Enter dialog: ")
+
+print("Dialog Act:", dialog_act(text))
