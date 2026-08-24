@@ -1,0 +1,21 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+documents = [
+    "Python is a programming language",
+    "Python is easy to learn",
+    "Java is a programming language"
+]
+
+query = input("Enter search query: ")
+
+vectorizer = TfidfVectorizer()
+data = documents + [query]
+
+tfidf = vectorizer.fit_transform(data)
+
+scores = cosine_similarity(tfidf[-1], tfidf[:-1])[0]
+
+print("\nDocument Ranking:")
+for i, score in enumerate(scores):
+    print("Document", i + 1, ":", round(score, 3))
