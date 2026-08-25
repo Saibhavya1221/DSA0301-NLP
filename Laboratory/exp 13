@@ -1,17 +1,66 @@
-import nltk
+grammar = {
+    "S": ["NP VP"],
+    "NP": ["Det N"],
+    "VP": ["V NP"],
+    "Det": ["the"],
+    "N": ["cat", "dog"],
+    "V": ["sees", "likes"]
+}
 
-grammar = nltk.CFG.fromstring("""
-S -> NP VP
-NP -> Det N
-VP -> V NP
-Det -> 'the'
-N -> 'boy' | 'ball'
-V -> 'kicked'
-""")
 
-parser = nltk.ChartParser(grammar)
+def tree(symbol, words, index):
 
-sentence = "the boy kicked the ball".split()
+    if symbol not in grammar:
 
-for tree in parser.parse(sentence):
-    tree.pretty_print()
+        if index < len(words) and words[index] == symbol:
+            return (symbol, index + 1)
+
+        return None
+
+    for production in grammar[symbol]:
+
+        parts = production.split()
+
+        children = []
+        pos = index
+        success = True
+
+        for part in parts:
+
+            result = tree(part, words, pos)
+
+            if result is None:
+                success = False
+                break
+
+            children.append(result[0])
+            pos = result[1]
+
+        if success:
+            return ((symbol, children), pos)
+
+    return None
+
+
+def print_tree(node, level=0):
+
+    if isinstance(node, tuple):
+
+        symbol = node[0]
+
+        print("  " * level + symbol)
+
+        if len(node) > 1 and isinstance(node[1], list):
+
+            for child in node[1]:
+                print_tree(child, level + 1)
+
+
+sentence = input("Enter sentence: ").lower().split()
+
+result = tree("S", sentence, 0)
+
+if result:
+    print_tree(result[0])
+else:
+    print("No parse tree found")
