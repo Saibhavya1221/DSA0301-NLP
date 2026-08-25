@@ -1,9 +1,53 @@
-words = ["playing", "book", "running", "school"]
+grammar = {
+    "S": [["NP", "VP"]],
+    "NP": [["Det", "N"]],
+    "VP": [["V", "NP"]],
+    "Det": [["the"], ["a"]],
+    "N": [["cat"], ["dog"], ["mouse"]],
+    "V": [["sees"], ["likes"]]
+}
 
-for word in words:
-    tag = "NN"
 
-    if word.endswith("ing"):
-        tag = "VBG"
+def parse(symbol, words, position):
 
-    print(word, ":", tag)
+    if position >= len(words):
+        return []
+
+    # Terminal
+    if symbol not in grammar:
+        if words[position] == symbol:
+            return [(symbol, position + 1)]
+        return []
+
+    for rule in grammar[symbol]:
+
+        results = [(symbol, position)]
+
+        pos = position
+        success = True
+
+        for part in rule:
+
+            result = parse(part, words, pos)
+
+            if not result:
+                success = False
+                break
+
+            pos = result[-1][1]
+            results.extend(result)
+
+        if success:
+            return results
+
+    return []
+
+
+sentence = input("Enter sentence: ").lower().split()
+
+result = parse("S", sentence, 0)
+
+if result and result[-1][1] == len(sentence):
+    print("Sentence accepted")
+else:
+    print("Sentence rejected")
