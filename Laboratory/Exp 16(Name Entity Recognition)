@@ -1,19 +1,20 @@
 text = input("Enter text: ")
 
-names = ["Ravi", "Priya", "John"]
-places = ["Chennai", "Delhi", "Mumbai"]
-organizations = ["Google", "Microsoft", "Amazon"]
-
 words = text.split()
 
-print("\nNamed Entities:")
+known_places = ["Chennai", "Hyderabad", "Delhi", "Mumbai"]
+known_people = ["Ravi", "John", "Priya", "Anu"]
+known_organizations = ["Google", "Microsoft", "Amazon"]
 
 for word in words:
-    word = word.strip(".,!?")
 
-    if word in names:
-        print(word, "-> PERSON")
-    elif word in places:
-        print(word, "-> LOCATION")
-    elif word in organizations:
-        print(word, "-> ORGANIZATION")
+    clean = word.strip(".,!?")
+
+    if clean in known_people:
+        print(clean, "-> PERSON")
+
+    elif clean in known_places:
+        print(clean, "-> LOCATION")
+
+    elif clean in known_organizations:
+        print(clean, "-> ORGANIZATION")
