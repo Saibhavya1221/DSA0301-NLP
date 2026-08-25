@@ -1,14 +1,40 @@
-import spacy
+sentence = input("Enter sentence: ")
 
-nlp = spacy.load("en_core_web_sm")
+words = sentence.split()
 
-text = input("Enter a sentence: ")
-doc = nlp(text)
+determiners = ["the", "a", "an"]
 
-print("\nNoun Phrases and Meanings:")
+noun_phrases = []
 
-for chunk in doc.noun_chunks:
-    print("Noun Phrase:", chunk.text)
-    print("Root:", chunk.root.text)
-    print("Meaning/Role:", chunk.root.dep_)
-    print()
+current = []
+
+for word in words:
+
+    if word.lower() in determiners:
+
+        if current:
+            noun_phrases.append(current)
+            current = []
+
+        current.append(word)
+
+    else:
+        current.append(word)
+
+if current:
+    noun_phrases.append(current)
+
+
+print("Noun Phrases:")
+
+for phrase in noun_phrases:
+
+    print("Phrase:", " ".join(phrase))
+
+    nouns = []
+
+    for word in phrase:
+        if word.lower() not in determiners:
+            nouns.append(word)
+
+    print("Meaning:", " ".join(nouns))
