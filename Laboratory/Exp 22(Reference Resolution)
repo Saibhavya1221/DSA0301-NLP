@@ -1,32 +1,20 @@
-import re
+sentence = input("Enter sentence: ")
 
-def reference_resolution(text):
-    words = text.split()
-    nouns = []
-    
-    pronouns = {
-        "he", "she", "it", "they", "him", "her", "them"
-    }
+words = sentence.split()
 
-    print("\nReference Resolution:")
-    
-    for word in words:
-        clean = re.sub(r'[^a-zA-Z]', '', word)
-        lower = clean.lower()
+pronouns = ["he", "she", "it", "they", "him", "her", "them"]
 
-        if lower in pronouns:
-            if nouns:
-                print(clean, "->", nouns[-1])
-            else:
-                print(clean, "-> No reference found")
-        elif clean:
-            # Store possible nouns
-            if lower not in {
-                "the", "a", "an", "is", "was", "are",
-                "and", "or", "to", "in", "on", "of",
-                "has", "have", "with"
-            }:
-                nouns.append(clean)
+last_noun = None
 
-text = input("Enter a sentence: ")
-reference_resolution(text)
+for word in words:
+
+    clean = word.strip(".,!?")
+
+    if clean.lower() in pronouns:
+
+        print(clean, "refers to", last_noun)
+
+    elif clean.lower() not in ["is", "am", "are", "was", "were",
+                               "the", "a", "an", "and"]:
+
+        last_noun = clean
