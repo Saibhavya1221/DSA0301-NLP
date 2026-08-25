@@ -1,9 +1,34 @@
-import nltk
+sentence = input("Enter a sentence: ")
 
-sentence = "The little boy is playing football"
+words = sentence.split()
 
-words = nltk.word_tokenize(sentence)
+verbs = ["is", "am", "are", "was", "were",
+         "run", "runs", "eat", "eats", "play", "plays"]
 
-tags = nltk.pos_tag(words)
+pronouns = ["i", "you", "he", "she", "it", "we", "they"]
 
-print(tags)
+determiners = ["a", "an", "the"]
+
+prepositions = ["in", "on", "at", "to", "from", "with"]
+
+for word in words:
+    w = word.lower()
+
+    if w in pronouns:
+        tag = "PRONOUN"
+    elif w in verbs:
+        tag = "VERB"
+    elif w in determiners:
+        tag = "DETERMINER"
+    elif w in prepositions:
+        tag = "PREPOSITION"
+    elif w.endswith("ly"):
+        tag = "ADVERB"
+    elif w.endswith(("ing", "ed")):
+        tag = "VERB"
+    elif w.endswith(("ous", "ful", "ive", "al")):
+        tag = "ADJECTIVE"
+    else:
+        tag = "NOUN"
+
+    print(word, "->", tag)
