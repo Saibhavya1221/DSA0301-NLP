@@ -1,10 +1,18 @@
-def plural(noun):
-    if noun.endswith("y"):
-        return noun[:-1] + "ies"
-    elif noun.endswith(("s", "x", "z", "ch", "sh")):
-        return noun + "es"
+def plural(word):
+    if word.endswith(("s", "sh", "ch", "x", "z")):
+        return word + "es"
+
+    elif word.endswith("y") and word[-2] not in "aeiou":
+        return word[:-1] + "ies"
+
+    elif word.endswith("f"):
+        return word[:-1] + "ves"
+
     else:
-        return noun + "s"
+        return word + "s"
+
 
 word = input("Enter a noun: ")
-print("Plural Form:", plural(word))
+
+print("Singular:", word)
+print("Plural:", plural(word))
