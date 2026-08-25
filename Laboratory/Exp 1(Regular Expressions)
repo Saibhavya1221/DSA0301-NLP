@@ -1,0 +1,21 @@
+import re
+
+text = "My phone number is 9876543210 and my email is student@gmail.com"
+
+# Search for email
+email = re.search(r'[\w.-]+@[\w.-]+\.\w+', text)
+
+# Search for 10 digit phone number
+phone = re.search(r'\b\d{10}\b', text)
+
+if email:
+    print("Email found:", email.group())
+
+if phone:
+    print("Phone number found:", phone.group())
+
+# Match word starting with Student
+word = re.match(r'Student', "Student is learning Python")
+
+if word:
+    print("Match found:", word.group())
