@@ -1,12 +1,34 @@
-import nltk
-from nltk.corpus import wordnet
+wordnet = {
+    "bank": [
+        "a financial institution",
+        "the side of a river"
+    ],
 
-nltk.download("wordnet")
+    "bat": [
+        "a flying mammal",
+        "a sports equipment used in baseball"
+    ],
 
-word = input("Enter a word: ")
+    "car": [
+        "a road vehicle with four wheels"
+    ],
 
-synsets = wordnet.synsets(word)
+    "python": [
+        "a type of snake",
+        "a programming language"
+    ]
+}
 
-print("\nSynsets and Meanings:")
-for syn in synsets:
-    print(syn.name(), "->", syn.definition())
+
+word = input("Enter a word: ").lower()
+
+if word in wordnet:
+
+    print("Word:", word)
+    print("Meanings:")
+
+    for meaning in wordnet[word]:
+        print("-", meaning)
+
+else:
+    print("Word not found")
