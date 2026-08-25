@@ -1,21 +1,54 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+
+import math
 
 documents = [
-    "Python is a programming language",
-    "Python is easy to learn",
-    "Java is a programming language"
+    "the cat sits on the mat",
+    "the dog sits on the floor",
+    "the cat likes the dog"
 ]
 
-query = input("Enter search query: ")
+query = input("Enter search query: ").lower()
 
-vectorizer = TfidfVectorizer()
-data = documents + [query]
 
-tfidf = vectorizer.fit_transform(data)
+def words(text):
+    return set(text.lower().split())
 
-scores = cosine_similarity(tfidf[-1], tfidf[:-1])[0]
 
-print("\nDocument Ranking:")
-for i, score in enumerate(scores):
-    print("Document", i + 1, ":", round(score, 3))
+N = len(documents)
+
+query_words = words(query)
+
+scores = []
+
+for document in documents:
+
+    doc_words = words(document)
+
+    score = 0
+
+    for word in query_words:
+
+        if word in doc_words:
+
+            tf = document.lower().split().count(word)
+
+            df = 0
+
+            for d in documents:
+                if word in words(d):
+                    df += 1
+
+            idf = math.log(N / df)
+
+            score += tf * idf
+
+    scores.append(score)
+
+
+for i in range(N):
+    print("Document", i + 1, "Score:", scores[i])
+
+best = scores.index(max(scores))
+
+print("Best matching document:")
+print(documents[best])
