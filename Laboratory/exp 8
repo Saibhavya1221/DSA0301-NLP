@@ -1,11 +1,28 @@
 import random
 
-words = ["dog", "runs", "quickly", "cat"]
+tag_probability = {
+    "the": [("DET", 0.9), ("NOUN", 0.1)],
+    "dog": [("NOUN", 0.8), ("VERB", 0.2)],
+    "runs": [("VERB", 0.9), ("NOUN", 0.1)],
+    "fast": [("ADV", 0.8), ("ADJ", 0.2)]
+}
 
-possible_tags = ["NN", "VB", "RB", "JJ"]
+sentence = input("Enter sentence: ").lower().split()
 
-print("Stochastic POS Tags")
+for word in sentence:
 
-for word in words:
-    tag = random.choice(possible_tags)
-    print(word, ":", tag)
+    if word in tag_probability:
+        tags = tag_probability[word]
+
+        r = random.random()
+        total = 0
+
+        for tag, probability in tags:
+            total += probability
+
+            if r <= total:
+                print(word, "->", tag)
+                break
+
+    else:
+        print(word, "-> NOUN")
