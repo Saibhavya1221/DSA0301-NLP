@@ -1,15 +1,45 @@
-pip install transformers torch sentencepiece
+dictionary = {
+    "hello": "bonjour",
+    "good": "bon",
+    "morning": "matin",
+    "goodbye": "au revoir",
+    "thank": "merci",
+    "you": "vous",
+    "please": "s'il vous plaît",
+    "yes": "oui",
+    "no": "non",
+    "cat": "chat",
+    "dog": "chien",
+    "house": "maison",
+    "book": "livre",
+    "school": "école",
+    "student": "étudiant",
+    "teacher": "professeur",
+    "food": "nourriture",
+    "water": "eau",
+    "computer": "ordinateur",
+    "i": "je",
+    "am": "suis",
+    "is": "est",
+    "the": "le"
+}
 
-from transformers import pipeline
 
-translator = pipeline(
-    "translation",
-    model="Helsinki-NLP/opus-mt-en-fr"
-)
+sentence = input("Enter English sentence: ").lower()
 
-text = input("Enter English text: ")
+words = sentence.split()
 
-result = translator(text)
+translated = []
 
-print("\nFrench Translation:")
-print(result[0]["translation_text"])
+for word in words:
+
+    clean = word.strip(".,!?")
+
+    if clean in dictionary:
+        translated.append(dictionary[clean])
+    else:
+        translated.append("[" + clean + "]")
+
+
+print("French translation:")
+print(" ".join(translated))
