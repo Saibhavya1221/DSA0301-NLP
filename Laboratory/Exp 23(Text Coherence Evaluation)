@@ -1,32 +1,38 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+import re
 
-text = input("Enter text: ")
+text = input("Enter a paragraph: ")
 
-sentences = text.split(".")
+sentences = re.split(r'[.!?]+', text)
 
 sentences = [s.strip() for s in sentences if s.strip()]
 
-if len(sentences) < 2:
-    print("Enter at least two sentences")
+words = text.lower().split()
+
+repeated_words = {}
+
+for word in words:
+
+    word = word.strip(".,!?")
+
+    if len(word) > 3:
+
+        repeated_words[word] = repeated_words.get(word, 0) + 1
+
+
+score = 0
+
+for word, count in repeated_words.items():
+
+    if count > 1:
+        score += 1
+
+
+print("Number of sentences:", len(sentences))
+print("Repeated meaningful words:", score)
+
+if score >= 2:
+    print("Text coherence: Good")
+elif score == 1:
+    print("Text coherence: Moderate")
 else:
-    vectorizer = TfidfVectorizer()
-    tfidf = vectorizer.fit_transform(sentences)
-
-    total = 0
-
-    for i in range(len(sentences) - 1):
-        score = cosine_similarity(
-            tfidf[i], tfidf[i + 1]
-        )[0][0]
-
-        total += score
-
-    coherence = total / (len(sentences) - 1)
-
-    print("Coherence Score:", round(coherence, 3))
-
-    if coherence > 0.3:
-        print("Text is coherent")
-    else:
-        print("Text has low coherence")
+    print("Text coherence: Low")
