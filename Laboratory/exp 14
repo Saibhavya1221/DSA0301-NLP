@@ -1,9 +1,19 @@
-subject = input("Enter Subject (He/They): ")
-verb = input("Enter Verb: ")
+singular_subjects = ["he", "she", "it"]
+plural_subjects = ["they", "we"]
 
-if subject == "He" and verb == "runs":
-    print("Sentence is Correct")
-elif subject == "They" and verb == "run":
-    print("Sentence is Correct")
+singular_verbs = ["is", "was", "runs", "eats"]
+plural_verbs = ["are", "were", "run", "eat"]
+
+sentence = input("Enter sentence: ").lower().split()
+
+subject = sentence[0]
+verb = sentence[1]
+
+if subject in singular_subjects and verb in singular_verbs:
+    print("Agreement is correct")
+
+elif subject in plural_subjects and verb in plural_verbs:
+    print("Agreement is correct")
+
 else:
-    print("Sentence is Incorrect")
+    print("Agreement is incorrect")
