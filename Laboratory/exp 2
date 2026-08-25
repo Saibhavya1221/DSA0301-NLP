@@ -1,31 +1,33 @@
-def finite_state_automaton(string):
-    state = 0
+def accepts(string):
+    state = 'q0'
 
     for ch in string:
-        if state == 0:
+        if state == 'q0':
             if ch == 'a':
-                state = 1
+                state = 'q1'
             else:
-                state = 0
+                state = 'q0'
 
-        elif state == 1:
+        elif state == 'q1':
             if ch == 'b':
-                state = 2
+                state = 'q2'
             elif ch == 'a':
-                state = 1
+                state = 'q1'
             else:
-                state = 0
+                state = 'q0'
 
-        elif state == 2:
+        elif state == 'q2':
             if ch == 'a':
-                state = 1
+                state = 'q1'
             else:
-                state = 0
+                state = 'q0'
 
-    if state == 2:
-        print("Accepted")
-    else:
-        print("Rejected")
+    return state == 'q2'
 
-s = input("Enter a string: ")
-finite_state_automaton(s)
+
+string = input("Enter a string: ")
+
+if accepts(string):
+    print("Accepted - String ends with 'ab'")
+else:
+    print("Rejected")
