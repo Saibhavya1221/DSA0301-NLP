@@ -1,8 +1,28 @@
-from nltk.stem import WordNetLemmatizer
+def morphological_analysis(word):
+    prefixes = ["un", "re", "dis", "pre"]
+    suffixes = ["ing", "ed", "er", "ly", "s", "es"]
 
-lemmatizer = WordNetLemmatizer()
+    prefix = ""
+    suffix = ""
+    root = word
 
-words = ["cars", "running", "children", "better"]
+    for p in prefixes:
+        if word.startswith(p) and len(word) > len(p) + 2:
+            prefix = p
+            root = word[len(p):]
+            break
 
-for word in words:
-    print(word, "->", lemmatizer.lemmatize(word))
+    for s in suffixes:
+        if root.endswith(s) and len(root) > len(s) + 2:
+            suffix = s
+            root = root[:-len(s)]
+            break
+
+    print("Word   :", word)
+    print("Prefix :", prefix if prefix else "None")
+    print("Root   :", root)
+    print("Suffix :", suffix if suffix else "None")
+
+
+word = input("Enter a word: ")
+morphological_analysis(word)
