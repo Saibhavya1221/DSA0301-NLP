@@ -1,17 +1,82 @@
-import nltk
+grammar = {
+    "S": [["NP", "VP"]],
+    "NP": [["Det", "N"]],
+    "VP": [["V", "NP"]],
+    "Det": [["the"], ["a"]],
+    "N": [["cat"], ["dog"]],
+    "V": [["sees"], ["likes"]]
+}
 
-grammar = nltk.CFG.fromstring("""
-S -> NP VP
-NP -> Det N
-VP -> V
-Det -> 'the'
-N -> 'girl'
-V -> 'sings'
-""")
 
-parser = nltk.EarleyChartParser(grammar)
+def earley_parse(words):
 
-sentence = "the girl sings".split()
+    chart = [[] for _ in range(len(words) + 1)]
 
-for tree in parser.parse(sentence):
-    print(tree)
+    chart[0].append(("S", ["NP", "VP"], 0, 0))
+
+    for i in range(len(words) + 1):
+
+        changed = True
+
+        while changed:
+
+            changed = False
+
+            for state in chart[i].copy():
+
+                lhs, rhs, dot, start = state
+
+                # Complete
+                if dot == len(rhs):
+
+                    for old in chart[start]:
+
+                        a, b, d, s = old
+
+                        if d < len(b) and b[d] == lhs:
+
+                            new_state = (a, b, d + 1, s)
+
+                            if new_state not in chart[i]:
+                                chart[i].append(new_state)
+                                changed = True
+
+                else:
+
+                    next_symbol = rhs[dot]
+
+                    # Predict
+                    if next_symbol in grammar:
+
+                        for rule in grammar[next_symbol]:
+
+                            new_state = (next_symbol, rule, 0, i)
+
+                            if new_state not in chart[i]:
+                                chart[i].append(new_state)
+                                changed = True
+
+                    # Scan
+                    elif i < len(words) and next_symbol == words[i]:
+
+                        new_state = (lhs, rhs, dot + 1, start)
+
+                        if new_state not in chart[i + 1]:
+                            chart[i + 1].append(new_state)
+
+    for state in chart[len(words)]:
+
+        lhs, rhs, dot, start = state
+
+        if lhs == "S" and dot == len(rhs) and start == 0:
+            return True
+
+    return False
+
+
+sentence = input("Enter sentence: ").lower().split()
+
+if earley_parse(sentence):
+    print("Sentence accepted")
+else:
+    print("Sentence rejected")
