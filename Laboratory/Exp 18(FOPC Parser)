@@ -1,10 +1,19 @@
 import re
 
-expr = input("Enter FOPC expression: ")
+expression = input("Enter logical expression: ")
 
-pattern = r'^[A-Za-z]+\([A-Za-z]+\)$'
+pattern = r'([A-Za-z]+)\(([^()]*)\)'
 
-if re.match(pattern, expr):
-    print("Valid FOPC Expression")
+matches = re.findall(pattern, expression)
+
+if matches:
+
+    print("Valid predicate expression")
+
+    for predicate, arguments in matches:
+
+        print("Predicate:", predicate)
+        print("Arguments:", arguments.split(","))
+
 else:
-    print("Invalid FOPC Expression")
+    print("Invalid expression")
