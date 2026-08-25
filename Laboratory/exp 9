@@ -1,15 +1,27 @@
-import re
+import random
 
-words = ["playing", "beautiful", "quickly", "dog", "walked"]
+sentence = input("Enter sentence: ")
+
+words = sentence.split()
 
 for word in words:
-    if re.search("ing$", word):
-        tag = "VBG"
-    elif re.search("ly$", word):
-        tag = "RB"
-    elif re.search("ed$", word):
-        tag = "VBD"
-    else:
-        tag = "NN"
 
-    print(word, ":", tag)
+    if re.match(r'^[0-9]+$', word):
+        tag = "NUMBER"
+
+    elif re.match(r'.*ing$', word):
+        tag = "VERB"
+
+    elif re.match(r'.*ly$', word):
+        tag = "ADVERB"
+
+    elif re.match(r'.*(ous|ful|ive)$', word):
+        tag = "ADJECTIVE"
+
+    elif word.lower() in ["the", "a", "an"]:
+        tag = "DETERMINER"
+
+    else:
+        tag = "NOUN"
+
+    print(word, "->", tag)
