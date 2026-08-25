@@ -1,15 +1,26 @@
-pip install openai
+responses = {
+    "hello": "Hello! How can I help you?",
+    "ai": "Artificial Intelligence enables machines to perform intelligent tasks.",
+    "python": "Python is a popular programming language used in many applications.",
+    "computer": "A computer is an electronic device that processes data."
+}
 
-from openai import OpenAI
 
-client = OpenAI()
+prompt = input("Enter your prompt: ").lower()
 
-prompt = input("Enter prompt: ")
+found = False
 
-response = client.responses.create(
-    model="gpt-4.1-mini",
-    input=prompt
-)
+for key in responses:
 
-print("\nGenerated Text:")
-print(response.output_text)
+    if key in prompt:
+
+        print("Generated Text:")
+        print(responses[key])
+
+        found = True
+        break
+
+
+if not found:
+    print("Generated Text:")
+    print("This is a sample response generated from the given prompt.")
