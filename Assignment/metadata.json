@@ -1,0 +1,8 @@
+{
+  "name": "Intelligent Text Understanding and Information Retrieval System",
+  "description": "An End-to-End NLP Pipeline for Morphological, Syntactic, Semantic and Statistical Text Analysis (Course: DSA0301 - Natural Language Processing)",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
